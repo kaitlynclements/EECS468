@@ -1,0 +1,128 @@
+<!--
+    Author: Kaitlyn Clements
+    KUID: 3072622
+    Date: 10/18/2023
+    Inputs: Results Data
+    Outputs: Pie Charts
+    Description: Draw a pie chart with sector labels from given data
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pie Chart</title>
+</head>
+<body>
+    <div>
+        <h1>Data Set 1</h1>
+        <canvas id="canvas1" width="400" height="400"></canvas>
+    </div>
+    <div>
+        <h1>Data Set 2</h1>
+        <canvas id="canvas2" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        // Data for Data Set 1
+        const results1 = [
+            { name: "Very happy", count: 104, color: "lightblue" },
+            { name: "Happy", count: 63, color: "lightgreen" },
+            { name: "Neutral", count: 87, color: "pink" },
+            { name: "Unhappy", count: 51, color: "silver" },
+            { name: "Very unhappy", count: 26, color: "purple" },
+            { name: "No comment", count: 18, color: "orange" }
+        ];
+
+        // Canvas and context for Data Set 1
+        let cx1 = document.querySelector("#canvas1").getContext("2d"); // select the canvas
+        let total1 = results1.reduce((sum, { count }) => sum + count, 0);
+        let currentAngle1 = -0.5 * Math.PI;
+        const radius = 100;
+
+        //iterate through every category in results
+        for (let result of results1) {
+            //calculate the slice angle
+            let sliceAngle = (result.count / total1) * 2 * Math.PI;
+            //calculate the label angle
+            let labelAngle = currentAngle1 + sliceAngle / 2;
+
+            // Calculate the label position
+            //30 is the label offset
+            //label Y position
+            let labelX = 200 + Math.cos(labelAngle) * (radius + 30); 
+            //label X position
+            let labelY = 200 + Math.sin(labelAngle) * (radius + 30);
+
+            // Draw the pie slice
+            cx1.beginPath();
+            //begin the path
+            cx1.arc(200, 200, radius, currentAngle1, currentAngle1 + sliceAngle);
+            //draw an arc given the angles and radius info
+            currentAngle1 += sliceAngle;
+            // increment the current angle by the slice angle
+            cx1.lineTo(200, 200);
+            // draw a line
+            cx1.fillStyle = result.color;
+            // fille it with it's color
+            cx1.fill();
+
+            // Position and draw the label
+            cx1.font = "16px Arial"; //determine the font
+            cx1.textAlign = "center"; // Center the text
+            cx1.textBaseline = "middle"; // Center the text vertically
+            cx1.fillText(result.name, labelX, labelY); //fill the color of the text
+        }
+    </script>
+
+    <script>
+        // Data for Data Set 2
+        const results2 = [
+            { name: "Satisfied", count: 927, color: "lightblue" },
+            { name: "Neutral", count: 213, color: "lightgreen" },
+            { name: "Unsatisfied", count: 463, color: "pink" },
+            { name: "No comment", count: 510, color: "silver" }
+        ];
+
+        // Canvas and context for Data Set 2
+        let cx2 = document.querySelector("#canvas2").getContext("2d"); //select the canvas
+        let total2 = results2.reduce((sum, { count }) => sum + count, 0);
+        let currentAngle2 = -0.5 * Math.PI;
+
+        //iterate through every category in results
+        for (let result of results2) {
+            //calculate the slice angle
+            let sliceAngle = (result.count / total2) * 2 * Math.PI;
+            //calculate the label angle
+            let labelAngle = currentAngle2 + sliceAngle / 2;
+
+            // Calculate the label position
+            //30 is the label offset 
+            // X position of label
+            let labelX = 200 + Math.cos(labelAngle) * (radius + 30); 
+            //Y position of label
+            let labelY = 200 + Math.sin(labelAngle) * (radius + 30);
+
+            // Draw the pie slice
+            cx2.beginPath();
+            // begin the path
+            cx2.arc(200, 200, radius, currentAngle2, currentAngle2 + sliceAngle);
+            //draw an arc given the angles and radius info
+            currentAngle2 += sliceAngle;
+            // increment the current angle by the slice angle
+            cx2.lineTo(200, 200);
+            //draw a line
+            cx2.fillStyle = result.color;
+            //fille the slice with it's color
+            cx2.fill();
+
+            // Position and draw the label
+            cx2.font = "16px Arial"; //select font
+            cx2.textAlign = "center"; // Center the text
+            cx2.textBaseline = "middle"; // Center the text vertically
+            cx2.fillText(result.name, labelX, labelY); //fill the text at the correct position with it's color
+        }
+    </script>
+</body>
+</html>
+

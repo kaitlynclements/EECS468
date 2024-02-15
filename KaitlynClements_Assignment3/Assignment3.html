@@ -1,0 +1,147 @@
+<!--
+Assignment: EECS 468 Assignment 3
+Author: Kaitlyn Clements
+KUID: 3072622
+Date: 09/17/2023
+Description: Creating a group class
+Input: value or group
+Output: Browser displaying contents, .has(), .union(), .intersection(), .difference(), .delete(), .add()
+-->
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Assignment 3
+        </title>
+    </head>
+    <body>
+        <h1>Assignment 3</h1>
+        <h2>a: Contents of group1</h2>
+        <p id="a"></p>
+        <h2>b: Contents of group2</h2>
+        <p id="b"></p>
+        <h2>c: Results of group1.has(5)</h2>
+        <p id="c"></p>
+        <h2>d: Results of group2.has(3)</h2>
+        <p id="d"></p>
+        <h2>e: Results of group1.union(group2)</h2>
+        <p id="e"></p>
+        <h2>f: Results of group1.intersection(group2)</h2>
+        <p id="f"></p>
+        <h2>g: Results of group1.difference(group2)</h2>
+        <p id="g"></p>
+        <h2>h: Results of group1.delete(1)</h2>
+        <p id="h"></p>
+        <h2>i: Results of group2.delete(1)</h2>
+        <p id="i"></p>
+
+        <script>
+            //javaScript Code
+            class Group{
+                //Group class definition
+                constructor(){
+                    //Creates an empty group
+                    this.elements = [];
+                }
+                add(value){
+                    //adds a value to the group (but only if it isn't already a member)
+                    if (!this.has(value)){
+                        this.elements.push(value); //adds value to mygroup
+                    }
+                }
+                delete(value){
+                    //removes its argument from the group (if it was a member)
+                    if (this.has(value)){
+                        this.elements = this.elements.filter(item => item !== value); //iterates through mygroup and checks each element, if the element is equal to the value input it does not get added to the new array
+                        //creates a newgroup and reassigns it to mygroup, the new group will not include the input value
+                        //I did not know about the .filter function, so I asked chatGPT how to go about the delete function when given a value
+                        //the result was the filter array function in JS, used to return an array whose values 'passes' the filter (what is in the parameter)
+                    }
+                }
+                has(value){
+                    //returns a Boolean value indicating whether its argument is a member of the group
+                    return this.elements.includes(value);
+                    //researched the python equivalent to 'in' to discover includes() JS function
+                    //For ex: could use value in mylist in python to determine if a value is in a list/array
+                    //JS uses the includes(value) array function instead to search all the elements in 'this' which would be mygroup
+                }
+                union(otherGroup){
+                    //returns the union of the group and the argument, which should be another group: this ∪ argument
+                    const newGroup = new Group(); //creates a new empty group
+                    for (const element of this.elements){ //iterates thorugh every element of mygroup
+                        newGroup.add(element); //Adds elements from mygroup
+                    }
+                    for (const element of otherGroup.elements){ //iterates through every element of otherGroup
+                        newGroup.add(element); //Adds elements from otherGroup to newGroup
+                    }
+                    return newGroup; //returns the newGroup including the union of mygroup and otherGroup
+                }
+                intersection(otherGroup){
+                    //returns the intersection of the group and the argument, which should be another group: this ∩ argument 
+                    const newGroup = new Group(); //creates a new empty group
+                    for (const element of this.elements){ //iterates through mygroup
+                        if (otherGroup.has(element)){ //if the element in mygroup is in otherGroup as well, do following code:
+                            newGroup.add(element); //adds element to newGroup 
+                        }
+                    }
+                    return newGroup; //Returns the newGroup with the intersection of mygroup and otherGroup
+                }
+                difference(otherGroup){
+                    //returns the difference of the group and the argument, which should be another group: this - argument
+                    const newGroup = new Group(); //creates a new empty group
+                    for (const element of this.elements){ //iterates through every element of mygroup
+                        if(!otherGroup.has(element)){ //if otherGroup does NOT have that element
+                            newGroup.add(element); //then add the element to newGroup
+                        }
+                    }
+                    return newGroup; //Returns the newGroup with the difference of mygroup and otherGroup
+                }
+            } //end Group class definition
+
+            //Creating groups to use for examples
+            let group1 = new Group();
+            let group2 = new Group();
+            //Adding to groups for examples
+            group1.add(1);
+            group1.add(2);
+            group1.add(3);
+            group2.add(2);
+            group2.add(3);
+            group2.add(5);
+            group2.add(2);
+
+            //Displays the output
+            var element = document.getElementById("a") 
+            element.innerHTML = "Group1: " + group1.elements;
+            
+            var element = document.getElementById("b")
+            element.innerHTML = "Group2: " + group2.elements;
+
+            var element = document.getElementById("c")
+            element.innerHTML = group1.has(5);
+
+            var element = document.getElementById("d")
+            element.innerHTML = group2.has(3)
+
+            var element = document.getElementById("e")
+            element.innerHTML = group1.union(group2).elements;
+
+            var element = document.getElementById("f")
+            element.innerHTML = group1.intersection(group2).elements;
+
+            var element = document.getElementById("g")
+            element.innerHTML = group1.difference(group2).elements;
+
+            var element = document.getElementById("h")
+            group1.delete(1);
+            element.innerHTML = group1.elements;
+
+            var element = document.getElementById("i")
+            group2.delete(1);
+            element.innerHTML = group2.elements;
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,121 @@
+<!--
+Assignment: EECS 468 Assignment 4
+Author: Kaitlyn Clements
+KUID: 3072622
+Date: 10/02/2023
+Description: Implement a simple tabbed interface using JavaScript and HTML
+Input: 
+Output: 
+-->
+
+<!--Write a function asTabs, that takes a DOM node and creates a tabbed 
+            interface showing the child elements of that node.
+            It should insert a list of<button> elements at the top of the node, 
+            one for each child element, containing text retrieved from the data-tabname 
+            attribute of the child. 
+            All but one of the original children should be hidden (given a display style of none)
+            The currently selected node can be selected by clicking the buttons. 
+            Color the button for the currently selected tab red so that it is obvious which tab is selected
+            Color the rest of the buttons blue. 
+            The title of your webpage should be Clements' Go KU! Page
+            On startup, the web page should display "Rock" highlighted and the text "Rock..." displayed
+
+            -->
+<!--Colaborated with Taylor Slade-->
+<!--Used chatGPT and W3schools.com for some topics I didn't know yet. EX: CSS-->
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Clements' Go KU! Page
+        </title>
+    </head>
+    <body>
+        <style type="text/css">
+            tab-panel > button.selected{ /*identifies buttons marked as selected and colors them red with white writing*/
+                background: red;
+                color: white;
+            }
+            tab-panel > div[data-tabname].hidden{/*identifies hidden tabs and marks display type as none*/
+                display: none;
+            }
+            tab-panel > button{ /*colors all buttons not selected to blue with white writing*/
+                background: blue;
+                color: white;
+            }
+        </style>
+</body>
+
+        <tab-panel>
+            <div data-tabname="Rock">Rock ...</div>
+            <div data-tabname="Chalk">Rock Chalk ...</div>
+            <div data-tabname="Jayhawk">Rock Chalk Jayhawk ...</div>
+            <div data-tabname="Go KU!">Rock Chalk Jayhawk - Go KU!</div>
+        </tab-panel> 
+
+        <script>
+            let currentTab; //initializes the current tab tracking variable
+            let currentBody; //initializes the current body tracking variable
+
+            function switchTab(event){
+                //Switches the currentTab assignment to the new tab selected
+                //Removes the 'selected' class from the previously selected tab
+                //adds 'selected' to the new currentTab
+                currentTab.classList.remove("selected"); //removes 'selected' from old tab
+                currentTab = event.target; //assigns currentTab to the new tab
+                currentTab.classList.add("selected"); //adds 'selected' to the new tab
+
+                let tabContent = document.querySelectorAll("tab-panel div");
+                //accesses node children for all tabs in tab-panel
+
+                currentBody.classList.toggle("hidden");
+                //Hides content of previous tab by toggling the 'hidden' identifier in the style selection
+
+                //Identifies 
+                switch(currentTab.textContent){
+                    case "Rock":
+                        currentBody = tabContent[0];
+                        break;
+                    case "Chalk":
+                        currentBody = tabContent[1];
+                        break;
+                    case "Jayhawk":
+                        currentBody = tabContent[2];
+                        break;
+                    case "Go KU!":
+                        currentBody = tabContent[3];
+                        break;
+                }
+                currentBody.classList.toggle("hidden");
+            }
+
+            function asTabs(node) { 
+                // Your code here. 
+                let tabLength = node.children.length;
+
+                for (let i = 0; i<tabLength; i++){
+                    let tabButton = document.createElement("button");
+                    //creates button
+                    tabButton.textContent = document.querySelectorAll("div")[i].getAttribute("data-tabname");
+                    //makes the button content the values of the nodes given in the tabpanel
+                    node.querySelectorAll("div")[i].classList.add("hidden");
+                    //Hides the body of the tabs by default
+                    tabButton.addEventListener("click", switchTab);
+                    node.insertBefore(tabButton, document.querySelector("div"));
+                    //listens for a button to be clicked and the calls the switchTab funtion
+                }
+                currentTab = document.querySelector("button");
+                currentTab.classList.add("selected");
+                currentBody = document.querySelector("div");
+                currentBody.classList.toggle("hidden");
+                //sets initial tab and displays its contents
+                //Default is "Rock" and content is "Rock..." since Rock is the first button
+            } 
+
+            asTabs(document.querySelector("tab-panel"));
+            //calling asTabs function
+        </script>
+    </body>
+</html>

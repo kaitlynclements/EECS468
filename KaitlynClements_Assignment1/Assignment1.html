@@ -1,0 +1,40 @@
+<!--
+Assignment: EECS 468 Assignment 1
+Author: Kaitlyn Clements
+Date: 08/26/2023
+Description: Hello World! examples using JS and HTML
+Inputs: None
+Outputs: Browser window with 2 test buttons
+-->
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World!</title>
+    </head>
+    <!--Created heading: Tab Display-->
+    <body>
+        <button onclick="buttonOne()">Test 1 for Hello World!</button>
+        <!--Creating 1st button-->
+        <script>
+            function buttonOne()
+            {
+                alert("Hello World!");
+            }
+        </script>
+        <!--Programmed 1st button's function to call alert() JS function and display "Hello World!"-->
+        <p id="myPara"> </p>
+        <!--Creating empty paragraph to be altered using 2nd button-->
+        <button onclick="buttonTwo()">Test 2 for Hello World!</button>
+        <!--Creating 2nd button-->
+        <script>
+            function buttonTwo()
+            {
+                var element = document.getElementById("myPara");
+                element.innerHTML = "Hello <br> World!";
+            }
+        </script>
+        <!--Programmed 2nd button's function to change the empty paragraph to "Hello World!"-->
+        <!--Also added in a break to achieve the two separate lines in the same paragraph-->
+    </body>
+</html>

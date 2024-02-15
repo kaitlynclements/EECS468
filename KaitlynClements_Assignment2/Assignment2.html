@@ -1,0 +1,103 @@
+<!--
+Assignment: EECS 468 Assignment 2
+Author: Kaitlyn Clements
+Date: 09/01/2023
+Description: 
+Inputs: size in exercise 2.3
+Outputs: a triangle of xs, nums 1-100 and their divisors, 8x8 grid, and 14x14 grid
+Other Sources: ChatGPT for ending section
+-->
+
+<!--I first wrote out all of the functions in a python file since that is the 
+language I know the best. I got all of them to run the way I wanted to. Then created the HTML
+file to transfer my logic. It helped with how to see how each part of the functions and syntax 
+works in JS versus in python. -->
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Assignment 2</title>
+        <!--tab name-->
+    </head>
+    <body>
+        <h1>Assignment 2: JavaScript Functions</h1>
+        <!--Main heading-->
+
+        <h2>2.1 Looping Triangle</h2>
+        <pre id="loopingTriangleOutput"></pre>
+        <!--sub heading-->
+
+        <h2>2.2 Fizz Buzz</h2>
+        <pre id="fizzBuzzOutput"></pre>
+        <!--sub heading-->
+
+        <h2>2.3. nxnGrid</h2>
+        <pre id="nxnGridOutput"></pre>
+        <!--sub heading-->
+
+
+        <script>
+            //Exercise 2.1 Looping a triangle
+            function loopingTriangle(){
+                let num = 1;
+                let output = '';
+                while (num <= 10){
+                    output = output + 'x'.repeat(num) + "\n";
+                    //adds a repetitions of xs to the output depending on what num is = to
+                    num = num+1;
+                    //progression
+                }
+                return output;
+            }
+
+            //Exercise 2.2 FizzBuzz
+            function fizzBuzz(){
+                let output = '';
+                for(num=1; num<=100; num++){
+                    //iterating nums 1-100
+                    if (num%4==0 && num%7==0){
+                        //if divisible by 4 and 7, print so
+                        output = output + "Divisible by both 4 and 7\n";
+                    }
+                    else if ((num%4)==0){
+                        //if divisible by 4 print so
+                        output = output + "Divisible by 4\n";
+                    }
+                    else if (num%7==0){
+                        //if divisible by 7 print so
+                        output = output + "Divisible by 7, but not by 4\n";
+                    }
+                    else{
+                        //if not divisible by 4 or 7 just print the num
+                        output = output + num + "\n";
+                    }
+                }
+                return output;
+            }
+            //Exercise 2.3 n-by-n Grid
+            function nxnGrid(size){
+                let grid = "";
+                for (let i=0; i<size; i++){
+                    for (let j=0; j<size; j++){
+                        if ((i+j)%2==0){
+                            grid = grid + ' ';
+                        }
+                        else{
+                            grid = grid + '*';
+                        }
+                    }
+                    grid = grid + '\n';
+                }
+                return grid;
+            }
+            //Testing
+            //Setting paragraphs output to the function output
+            document.getElementById('loopingTriangleOutput').textContent = 'Looping a Triangle\n' + loopingTriangle();
+            document.getElementById('fizzBuzzOutput').textContent = 'FizzBuzz: \n' + fizzBuzz();
+            document.getElementById("nxnGridOutput").textContent = 'Grid size: 8\n' + nxnGrid(8) + 'Grid size: 14\n' + nxnGrid(14);
+            //I struggled with trying to figure out how to put together the two grid outputs under the grid heading, so used chat GPT for this section
+            //I first had the document.getElementById function inside the functions I created, which is why it would not work to print both => only printed the later one
+        </script>
+    </body>
+</html>
